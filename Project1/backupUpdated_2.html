@@ -1,0 +1,198 @@
+<!-- WDM Project 1: Pong Game -->
+<!-- Name: Ritesh Deshmukh -->
+
+
+<!doctype html>
+<html>
+<head>
+    <style>
+        #pongarea{
+            position: absolute;
+            top: 10%;
+            left: 25%;
+            width: 600px;
+            height: 600px;
+            border: 2px solid blue;
+            border-style: solid dashed solid double;
+        }
+        #inner{
+            height: 100%;
+            width: 100%;
+        }
+        /* #paddle1{
+            position: absolute;
+            left: 0px;
+            top: 460px;
+            width: 10px;
+            height: 150px;
+            background-color: black;
+        } */
+        #paddle2{
+            position: absolute;
+            right: 8px;
+            top: 300px;
+            width: 10px;
+            height: 150px;
+            background-color: black;
+        }
+        #ball{
+            position: relative;
+            left: 300px;
+            top: 300px;
+            width: 25px;
+            height: 25px;
+            background-color: red;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body onload="startBall()">
+
+<button onclick="startPong()" id="startbutton" style="position: absolute; left: 25%; top: 20px;">Start</button>
+<button onclick="resetPong()" id="resetbutton" style="position: absolute; left: 30%; top: 20px;">Reset</button>
+<p style=" position: absolute; left: 34.5%; top: 20px;">Slow</p><input type="radio" id="slow" style="position: absolute; left: 35%; top: 20px;">
+<p style=" position: absolute; left: 37%; top: 20px;">Medium</p><input type="radio" id="medium" style="position: absolute; left: 38%; top: 20px;">
+<p style=" position: absolute; left: 41%; top: 20px;">Fast</p><input type="radio" id="fast" style="position: absolute; left: 41%; top: 20px;">
+<div id="pongarea">
+    <!-- <div id="inner"> -->
+    <div id="paddle1"></div>
+    <div id="paddle2"></div>
+    <div id="ball"></div>
+     <!-- </div> -->
+</div>
+
+</body>
+
+<script type="text/javascript">
+
+    function resetPong(){
+        location.reload();
+        //startBall();
+    }
+
+    var paddleHeight = 150;
+    var ballRadius = 25;
+    var paddleWidth = 10;
+    var speedofPaddle2 = 0;
+    var positionofPaddle2 = 300;
+    var topPositionofBall = 300;
+    var leftPositionofBall = 300;
+    var topSpeedofBall = 0;
+    var leftSpeedofBall = 0;
+
+    // defining keycodes for the paddle to move up and down
+    document.addEventListener('keydown',function(e){
+        if (e.keyCode == 38 || e.which == 38) {
+            positionofPaddle2 -= 20;
+            document.getElementById("paddle2").style.top = (positionofPaddle2) + "px"
+        }
+        if (e.keyCode == 40 || e.which == 40) {
+            positionofPaddle2 += 20;
+            document.getElementById("paddle2").style.top = (positionofPaddle2) + "px"
+        }
+    }, false);
+
+    // for smoother paddles and reduce up and downforce
+    document.addEventListener('keyup', function(e){
+        if (e.keyCode == 38 || e.which == 38){
+            speedofPaddle2 = 0;
+        }
+        if (e.keyCode == 40 || e.which == 40){
+            speedofPaddle2 = 0;
+        }
+    }, false);
+
+    window.setInterval(function show(){
+        if (positionofPaddle2 <= 0) {
+                positionofPaddle2 = 0;
+            }
+
+            if (positionofPaddle2 > 600 - paddleHeight) {
+                positionofPaddle2 = 600 - paddleHeight;
+            }
+
+    }, 1000/60)
+
+
+    function startPong() {
+        startBall();
+
+        // for smoother paddles
+        window.setInterval(function show() {
+            positionofPaddle2 += speedofPaddle2;
+
+            topPositionofBall += topSpeedofBall;
+            leftPositionofBall += leftSpeedofBall;
+
+            document.getElementById("paddle2").style.top = (positionofPaddle2) + "px";
+            document.getElementById("ball").style.top = (topPositionofBall) + "px";
+            document.getElementById("ball").style.left = (leftPositionofBall) + "px";
+
+            if (positionofPaddle2 <= 0) {
+                positionofPaddle2 = 0;
+            }
+
+            if (positionofPaddle2 > 600 - paddleHeight) {
+                positionofPaddle2 = 600 - paddleHeight;
+            }
+
+
+            // to make the ball bounce off the top and the bottom of the container pongarea
+            if (topPositionofBall <= 0 || topPositionofBall >= 600 - ballRadius) {
+                topSpeedofBall = -topSpeedofBall
+            }
+
+            // to make the ball bounce off the left side of the pongarea on the paddles
+            if (leftPositionofBall <= paddleWidth) {
+                if (topPositionofBall > 0) {
+                    leftSpeedofBall = -leftSpeedofBall;
+                } else {
+                    startBall();
+                }
+            }
+
+            // to make the ball bounce off the right side of the pongarea on the paddles
+            if (leftPositionofBall >= 600 - ballRadius - paddleWidth) {
+                if (topPositionofBall > positionofPaddle2 && topPositionofBall < positionofPaddle2 + paddleHeight) {
+                    leftSpeedofBall = -leftSpeedofBall;
+                } else {
+                    location.reload();
+                    // startBall();
+                    // clearInterval(startBall());
+                }
+            }
+
+        }, 1000 / 60);
+        // clearInterval(startBall());
+    }
+
+    function startBall(){
+        topPositionofBall = 300;
+        leftPositionofBall = 300;
+        if (Math.random() < 0.5){
+            var side = 1;
+        }
+        else{
+            var side = -1;
+        }
+
+        var slow1 = document.getElementById("slow");
+        var medium1 = document.getElementById("medium");
+        var fast1 = document.getElementById("fast");
+        if (medium1.checked == false && fast1.checked == false){
+            topSpeedofBall = Math.random() * -5 -3;
+            leftSpeedofBall = side * (Math.random() * 2 + 3);
+        }else if (slow1.checked == false && fast1.checked == false){
+            topSpeedofBall = Math.random() * -5 -8;
+            leftSpeedofBall = side * (Math.random() * 2 + 3);
+        }else if (slow1.checked == false && medium1.checked == false){
+            topSpeedofBall = Math.random() * -5 -16;
+            leftSpeedofBall = side * (Math.random() * 2 + 3);
+        }
+
+    }
+
+</script>
+
+</html>

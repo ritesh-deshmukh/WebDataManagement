@@ -1,0 +1,64 @@
+<!-- WDM Project 1: Pong Game -->
+<!-- Name: Ritesh Deshmukh -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #pongarea{
+            position: absolute;
+            top: 10%;
+            left: 25%;
+            width: 600px;
+            height: 600px;
+            border: 2px solid blue;
+            border-style: solid dashed solid double;
+        }
+        #inner{
+            height: 100%;
+            width: 100%;
+        }
+        #paddle{
+            position: absolute;
+            right: 8px;
+            top: 200px;
+            width: 10px;
+            height: 150px;
+            background-color: black;
+        }
+        #ball{
+            position: relative;
+            left: 300px;
+            top: 300px;
+            width: 35px;
+            height: 35px;
+            background-color: black;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body onload="startBall()">
+<h1 style=" position: absolute; left: 3%; top: 20px;">Pong Game</h1>
+<a style=" position: absolute; left: 3%; top: 100px;">First select speed and click Start</a>
+<a style=" position: absolute; left: 3%; top: 120px;">Click Reset to start a new game game</a>
+<a style=" position: absolute; left: 3%; top: 140px; color: blue;">Use the UP and DOWN buttons to move the paddle</a>
+<button onclick="startPong()" id="startbutton" style="position: absolute; left: 25%; top: 20px;">Start</button>
+<button onclick="resetPong()" id="resetbutton" style="position: absolute; left: 30%; top: 20px;">Reset</button>
+<h2 style="position: absolute; left: 45%; top: 20px;">Strikes<span id="scorecount" style="color: blue;"><p id="score" style="position: absolute; left: 48%; top: 20px;">0</p></span> </h2>
+<h2 style="position: absolute; left: 50%; top: 20px;">Max Score<span id="maxscorecount" style="color: blue;"><p id="maxscoreid" style="position: absolute; left: 53%; top: 20px;">0</p></span> </h2>
+<p style=" position: absolute; left: 34.5%; top: 20px;">Slow</p><input type="radio" id="slow" style="position: absolute; left: 35%; top: 20px;">
+<p style=" position: absolute; left: 37%; top: 20px;">Medium</p><input type="radio" id="medium" style="position: absolute; left: 38%; top: 20px;">
+<p style=" position: absolute; left: 41%; top: 20px;">Fast</p><input type="radio" id="fast" style="position: absolute; left: 41%; top: 20px;">
+<div id="pongarea">
+    <!-- <div id="inner"> -->
+    <div id="paddle1"></div>
+    <div id="paddle"></div>
+    <div id="ball"></div>
+     <!-- </div> -->
+</div>
+</body>
+
+<script src="pong.js"></script>
+
+</html>

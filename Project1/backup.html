@@ -1,0 +1,162 @@
+<!-- WDM Project 1: Pong Game -->
+<!-- Name: Ritesh Deshmukh -->
+
+
+<!doctype html>
+<html>
+<head>
+    <style>
+        #paddle1{
+            position: absolute;
+            left: 0px;
+            top: 460px;
+            width: 10px;
+            height: 150px;
+            background-color: black;
+        }
+        #paddle2{
+            position: absolute;
+            right: 0px;
+            top: 460px;
+            width: 10px;
+            height: 150px;
+            background-color: black;
+        }
+        #ball{
+            position: absolute;
+            left: 820px;
+            top: 510px;
+            width: 25px;
+            height: 25px;
+            background-color: red;
+            border-radius: 50%;
+        }
+
+    </style>
+</head>
+
+<body onload="startBall()">
+<div id="paddle1"></div>
+<div id="paddle2"></div>
+<div id="ball"></div>
+</body>
+
+<script type="text/javascript">
+    var paddleHeight = 150;
+    var ballRadius = 25;
+    var paddleWidth = 10;
+    var halfPaddleHeight = paddleHeight / 2;
+    var speedofPaddle1 = 0;
+    var positionofPaddle1 = 460;
+    var speedofPaddle2 = 0;
+    var positionofPaddle2 = 460;
+    var topPositionofBall = 510;
+    var leftPositionofBall = 820;
+    var topSpeedofBall = 0;
+    var leftSpeedofBall = 0;
+    var score1;
+    var score2;
+
+    // defining keycodes for the paddle to move up and down
+    document.addEventListener('keydown',function(e){
+        if (e.keyCode == 87 || e.which == 87) {
+            positionofPaddle1 -= 10;
+            document.getElementById("paddle1").style.top = (positionofPaddle1) + "px"
+        }
+        if (e.keyCode == 83 || e.which == 83) {
+            positionofPaddle1 += 10;
+            document.getElementById("paddle1").style.top = (positionofPaddle1) + "px"
+        }
+        if (e.keyCode == 38 || e.which == 38) {
+            positionofPaddle2 -= 10;
+            document.getElementById("paddle2").style.top = (positionofPaddle2) + "px"
+        }
+        if (e.keyCode == 40 || e.which == 40) {
+            positionofPaddle2 += 10;
+            document.getElementById("paddle2").style.top = (positionofPaddle2) + "px"
+        }
+    }, false);
+
+    document.addEventListener('keyup', function(e){
+        if (e.keyCode == 87 || e.which == 87){
+            speedofPaddle1 = 0;
+        }
+        if (e.keyCode == 83 || e.which == 83){
+            speedofPaddle1 = 0;
+        }
+        if (e.keyCode == 38 || e.which == 38){
+            speedofPaddle2 = 0;
+        }
+        if (e.keyCode == 40 || e.which == 40){
+            speedofPaddle2 = 0;
+        }
+    }, false);
+
+    // for smoother paddles
+    window.setInterval(function show() {
+        positionofPaddle1 += speedofPaddle1;
+        positionofPaddle2 += speedofPaddle2;
+
+        topPositionofBall += topSpeedofBall;
+        leftPositionofBall += leftSpeedofBall;
+
+        document.getElementById("paddle1").style.top = (positionofPaddle1) + "px";
+        document.getElementById("paddle2").style.top = (positionofPaddle2) + "px";
+
+        if (positionofPaddle1 <= 150){
+        positionofPaddle1 = 150;
+        }
+        if (positionofPaddle2 <= 150){
+        positionofPaddle2 = 150;
+        }
+        if (positionofPaddle1 >= window.innerHeight - paddleHeight){
+        positionofPaddle1 = window.innerHeight - paddleHeight;
+        }
+        if (positionofPaddle2 > window.innerHeight - paddleHeight){
+        positionofPaddle2 = window.innerHeight - paddleHeight;
+        }
+        if (topPositionofBall <=150 || topPositionofBall >= window.innerHeight - ballRadius){
+            topSpeedofBall = -topSpeedofBall
+        }
+        if (leftPositionofBall <= paddleWidth){
+            if (topPositionofBall > positionofPaddle1 && topPositionofBall < positionofPaddle1 + paddleHeight){
+                leftSpeedofBall  = -leftSpeedofBall;
+            }else{
+                startBall();
+            }
+        }
+        if (leftPositionofBall >= window.innerWidth - ballRadius - paddleWidth){
+            if (topPositionofBall > positionofPaddle2 && topPositionofBall < positionofPaddle2 + paddleHeight){
+                leftSpeedofBall  = -leftSpeedofBall;
+            }else{
+                startBall();
+            }
+        }
+
+        document.getElementById("ball").style.top = (topPositionofBall) + "px";
+        document.getElementById("ball").style.left = (leftPositionofBall) + "px";
+
+
+
+    }, 1000/60);
+
+    // make paddle stop after you release your button
+
+
+    function startBall(){
+        topPositionofBall = 510;
+        leftPositionofBall = 820;
+        if (Math.random() < 0.5){
+            var side = 1;
+        }
+        else{
+            var side = -1;
+        }
+        topSpeedofBall = Math.random() * -2 -3;
+        leftSpeedofBall = side * (Math.random() * 2 + 3);
+    };
+
+
+</script>
+
+</html>

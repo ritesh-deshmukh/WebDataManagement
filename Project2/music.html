@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<!-- Student Name:Ritesh Deshmukh   -->
+<html lang="en">
+  <head>
+    <title>A Music Web Application</title>
+    <meta charset="utf-8"/>
+    <script type="text/javascript" src="music.js"></script>
+  </head>
+  <body onload="initialize();">
+    <form>
+       <label>Artist name: <input type="text" id="form-input"/></label>
+       <input type="button" onclick="sendRequest_artistinfo(); sendRequest_artistalbum(); sendRequest_artistsimilar();" value="Display Info"/>
+    </form>
+    <div id="artist_thumbnail" style="position: fixed; margin-left: 950px; margin-top: 350px;"></div>
+    <div id="artist_info" style="text-align: center; top: 1px; position: relative;">
+    </div><br>
+    <div id="artist_albums">&nbsp;</div><br>
+    <div id="artist_similar" style="position: relative;text-align: center">&nbsp;</div>
+  </body>
+</html>

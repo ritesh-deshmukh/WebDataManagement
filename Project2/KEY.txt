@@ -1,0 +1,7 @@
+API account created
+Here are the details of your new API account.
+Application name	Music
+API key	myAPIKey
+Shared secret	mySharedSecretKey
+Registered to	myID
+

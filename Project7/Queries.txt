@@ -1,0 +1,88 @@
+Name: Ritesh Deshmukh
+
+Query 1:
+for $b in doc('auction.xml')/site/regions
+return 
+<li> Query 1: { count($b//item) } </li>
+
+Query 2:
+<li>Query2</li>,
+for $b in doc('auction.xml')/site/regions/europe/item
+return 
+<li> { ($b//name) } { ($b//description) } </li>
+
+Query 3:
+<li>Query3</li>,
+for $b in doc('auction.xml')/site/people/person
+return 
+<li> Name =  { ($b//name) } , No. of items bought =  { count($b//watches/watch) }  </li>
+
+Query 4:
+<li>Query4</li>,
+for $a in doc('auction.xml')//categories/category 
+return <li> Interest Category Name = {$a/name} </li>,
+for $b in distinct-values(doc('auction.xml')/site/people/person/profile/interest/@category)
+return  <li> Interest Category ID = { $b } </li> ,
+let $text := <grp> Names = </grp>
+return  $text/text(),
+for $c in doc('auction.xml')//categories/category
+let $d := {$c/@id}
+for $e in doc('auction.xml')//people/person
+where $e/profile/interest/@category = $d
+group by $d
+return { <li> { $e/name } </li> } 
+
+Query 5:
+<li>Query5</li>,
+for $a in doc('auction.xml')//categories/category 
+return <li> Interest Category Name = {$a/name} </li>, 
+for $b in distinct-values(doc('auction.xml')/site/people/person/profile/interest/@category)
+return  <li> Interest Category ID = { $b } </li> ,
+let $text := <grp> Size of Group = </grp>
+return  $text/text(),
+for $c in doc('auction.xml')//categories/category
+let $d := {$c/@id}
+return
+count( for $e in doc('auction.xml')//people/person
+where $e/profile/interest/@category = $d
+return { { $e/name } } )
+
+Query 6:
+<li>Query6</li>,
+let $person := doc('auction.xml')//people/person
+let $auction_item_buy := doc('auction.xml')//closed_auctions/closed_auction
+let $europe_item := doc('auction.xml')//regions/europe/item
+for $a in $person
+	for $b in $auction_item_buy
+		for $c in $europe_item
+			where $b/itemref/@item = $c/@id 
+			where $b/buyer/@person = $a/@id
+			group by $a/@id
+			return <li> Person name = {$a/name}, Items = { $c/name } </li>
+			
+Query 7:
+<li>Query7</li>,
+for $a in doc('auction.xml')/site/regions//item
+order by $a/name
+return <li>Item name = { $a/name/text() } Item location = { $a/location/text() } </li>
+
+Query 8:
+<li>Query8</li>,
+let $auc := doc("auction.xml")/site/open_auctions//open_auction
+for $bidder in $auc
+return
+{
+let $x := $bidder/bidder/personref/@person
+let $y := $bidder/bidder/personref/@person
+where( (index-of(($x),'person3')) < (index-of(($y),'person6')) ) 
+return <li> { $bidder/@id, $bidder/reserve } </li>
+}
+
+
+
+
+
+
+
+
+

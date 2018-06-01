@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!-- 
+    Student Name: Ritesh Deshmukh
+    ID: 1001173911
+    Google API = myGoogleAPIKey
+    ZWSID = myZillowAPIKey
+-->
+<html lang="en">
+  <head>
+    <title>Web Mashup: Display House Prices on a Map</title>
+    <meta charset="utf-8"/>
+    <script type="text/javascript" src="map.js"></script>
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=myGoogleAPIKey&callback=initMap">
+    </script>
+  </head>
+  <body onload="initialize();"><h3>Web Mashup: Display House Prices on a Map</h3><br>
+    <form>
+       <label>House address: <input type="text" id="address"/></label>
+       <label>City: <input type="text" id="city"/></label>
+       <label>State: <input type="text" id="state"/></label>
+       <label>Zip Code: <input type="text" id="zipcode"/></label>
+       <input type="button" id="submit" onclick="sendRequest(); geocodeAddress();" value="Display Info"/>
+       <input type="button" onclick="clearRequest();" value="Clear Info"/>
+    </form>
+    <br/><div id="map" onclick="updateCounter()" style="width: 600px; height: 500px;"></div><br/>
+
+    <div>Amount = $<b id="output"></b></div>
+    <div>Address = <b id="addr"></b></div>
+
+    <!-- <div id="amount1"></div> -->
+    <div id="amount"></div>
+
+  </body>
+</html>
